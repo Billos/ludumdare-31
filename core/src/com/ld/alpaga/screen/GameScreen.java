@@ -7,20 +7,27 @@ import com.ld.alpaga.square.SquareManager;
 
 public class GameScreen implements Screen {
 
-	private SquareManager rectangleManager;
+	private SquareManager squareManager;
 	
 	public GameScreen() {
-		rectangleManager = new SquareManager();
-		rectangleManager.dispatch();
+		squareManager = new SquareManager();
+		squareManager.dispatch();
+	}
+	
+	private Screen launcher;
+	
+	public GameScreen(Screen launcher) {
+		this.launcher = launcher;
 	}
 	
 	@Override
 	public void render(float delta) {
 		
-		Gdx.gl.glClearColor(1, 255, 0, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);	
+		Gdx.gl.glClearColor(255, 0, 0, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        // test
         
-        rectangleManager.render();
+        squareManager.render();
 	}
 
 	@Override
