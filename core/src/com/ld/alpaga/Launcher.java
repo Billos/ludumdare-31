@@ -1,6 +1,7 @@
 package com.ld.alpaga;
 
 import com.badlogic.gdx.Game;
+import com.ld.alpaga.screen.GameScreen;
 import com.ld.alpaga.screen.MenuScreen;
 
 public class Launcher extends Game {
@@ -9,7 +10,7 @@ public class Launcher extends Game {
 	public void create () {
 		
 		// Starting on the Menu
-		setScreen(new MenuScreen(this));
+		setScreen(new GameScreen());
 		
 	}
 
