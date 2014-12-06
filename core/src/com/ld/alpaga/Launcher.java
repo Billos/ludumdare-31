@@ -10,7 +10,6 @@ public class Launcher extends Game {
 		
 		// Starting on the Menu
 		setScreen(new MenuScreen(this));
-		
 	}
 
 }

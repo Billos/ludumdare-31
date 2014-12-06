@@ -15,7 +15,7 @@ public class GameScreen implements Screen {
 
 	public GameScreen(Screen launcher) {
 		this.launcher = launcher;
-		this.state = State.PAUSE;
+		this.state = State.RUN;
 		squareManager = new SquareManager();
 		squareManager.dispatch();
 	}
@@ -43,12 +43,13 @@ public class GameScreen implements Screen {
 
 		if(Gdx.input.isKeyPressed(Keys.SPACE)){
 			this.state = State.RUN;
-		}
-		if(Gdx.input.isKeyPressed(Keys.P)){
+		} else if(Gdx.input.isKeyPressed(Keys.P)){
 			this.state = State.PAUSE;
+		}  else if(Gdx.input.isKeyPressed(Keys.ESCAPE)){
+			Gdx.app.exit();
 		}
-		System.out.println(this.state);
-
+		
+		
 	}
 
 	private void update() {
