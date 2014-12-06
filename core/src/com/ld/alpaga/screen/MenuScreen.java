@@ -65,7 +65,8 @@ public class MenuScreen implements Screen {
 		style.over = new TextureRegionDrawable(new TextureRegion(new TextureRegion(new Texture(Gdx.files.internal("style/menu/button/down.png")))));
 
 		TextButton button = new TextButton(Dictionary.buttonMenuLaunch, style);
-		button.setPosition(200, 150);
+		// Center
+		button.setPosition(stage.getWidth()/2, stage.getHeight()/2);
 		button.addListener(new LaunchGameListener(this));
 
 		stage.addActor(button);
