@@ -66,7 +66,10 @@ public class MenuScreen implements Screen {
 
 		TextButton button = new TextButton(Dictionary.buttonMenuLaunch, style);
 		// Center
-		button.setPosition(stage.getWidth()/2, stage.getHeight()/2);
+		float w = (Gdx.graphics.getWidth()-button.getWidth())/2;
+		float h = (Gdx.graphics.getHeight()-button.getHeight())/2;
+		
+		button.setPosition(w,h);
 		button.addListener(new LaunchGameListener(this));
 
 		stage.addActor(button);

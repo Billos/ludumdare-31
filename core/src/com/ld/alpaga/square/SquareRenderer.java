@@ -8,8 +8,7 @@ import com.badlogic.gdx.math.Rectangle;
 
 public class SquareRenderer extends SpriteBatch {
 	
-	public void renderSquares(boolean haveToMoveSquare, List<Square> squares)
-	{	
+	public void renderSquares(boolean haveToMoveSquare, List<Square> squares){	
 		for(Square square : squares) {
 			if(haveToMoveSquare)
 				moveSquare(square);
@@ -17,8 +16,7 @@ public class SquareRenderer extends SpriteBatch {
 		}
 	}
 	
-	private void moveSquare(Square square)
-	{
+	private void moveSquare(Square square){
 		Rectangle rectangle = square.getRectangle();
 		float newX = rectangle.x + rectangle.width;
 		

@@ -1,15 +1,17 @@
 package com.ld.alpaga.screen;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
+import com.ld.alpaga.badguy.BadGuyManager;
 import com.ld.alpaga.square.SquareManager;
 import com.ld.alpaga.util.State;
 
 public class GameScreen implements Screen {
 
 	private SquareManager squareManager;
+	private BadGuyManager badGuysManager;
 	private Screen launcher;
 	private State state;
 
@@ -18,6 +20,8 @@ public class GameScreen implements Screen {
 		this.state = State.PAUSE;
 		squareManager = new SquareManager();
 		squareManager.dispatch();
+		badGuysManager = new BadGuyManager(3);
+		badGuysManager.dispatch();
 	}
 
 
@@ -40,55 +44,41 @@ public class GameScreen implements Screen {
 		}
 
 		// pause unpause
-
-		if(Gdx.input.isKeyPressed(Keys.SPACE)){
-			this.state = State.RUN;
+		if(Gdx.input.isKeyJustPressed(Keys.SPACE)){
+			this.state = (this.state == State.RUN) ? State.PAUSE : State.RUN;
 		}
-		if(Gdx.input.isKeyPressed(Keys.P)){
-			this.state = State.PAUSE;
-		}
-		System.out.println(this.state);
 
 	}
 
 	private void update() {
 		squareManager.render();
+		badGuysManager.render();
 	}
 	
 	@Override
 	public void resize(int width, int height) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void show() {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void hide() {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void pause() {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void resume() {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void dispose() {
-		// TODO Auto-generated method stub
-
 	}
 
 }
