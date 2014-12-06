@@ -4,20 +4,21 @@ import java.util.LinkedList;
 import java.util.List;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.TimeUtils;
 
 public class SquareManager {
 
-	private float rectangleWidth, rectangleHeight;
+	private float screenWidth, screenHeight, marginWidth;
 	private static final float COLONNE = 15f;
 	private static final float LINE = 10f;
 
 	private List<Square> goodSquares, badSquares;
 	private SquareRenderer squareRenderer;
 	
-	private long timeSinceProcess;
+	private long timeSinceProcess;	
 	
 	public SquareManager() {
 		squareRenderer = new SquareRenderer();
@@ -27,25 +28,61 @@ public class SquareManager {
 		
 		timeSinceProcess = TimeUtils.millis();
 		
-		float screenWidth = Gdx.graphics.getWidth();
-		float screenHeight = Gdx.graphics.getHeight();
+		screenWidth = Gdx.graphics.getWidth();
+		screenHeight = Gdx.graphics.getHeight();
 		
-		rectangleWidth = screenWidth / COLONNE;
-		rectangleHeight = screenHeight / LINE;
+		Gdx.input.setInputProcessor(new InputAdapter () {
+			 public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+				 if (button == Input.Buttons.LEFT) {
+					 onMouseClick(screenX, screenY);
+					 return true;
+				 }
+				 return false;
+			 }
+		});
 	}
 	
-	public void dispatch() {
+	private void onMouseClick(int x, int y)
+	{
+		y = Gdx.graphics.getHeight() - y;
+		if(isOnSquareList(x, y, goodSquares)) {
+			screenWidth = screenWidth / 1.25f;
+			screenHeight = screenHeight / 1.25f;
+			dispatch();
+		}
+	}
 	
+	private boolean isOnSquareList(int x, int y, List<Square> squares)
+	{
+		for(Square square : squares)
+		{
+			boolean found = square.contains(x, y);
+						
+			if(found)
+				return true;
+		}
+		return false;
+	}
+
+	public void dispatch() {
+		goodSquares.clear();
+		badSquares.clear();
+		
+		float squareWidth = screenWidth / COLONNE;
+		float squareHeight = screenHeight / LINE;
+		
+		marginWidth = (Gdx.graphics.getWidth() - screenWidth) / 2f;
+		float marginHeight = (Gdx.graphics.getHeight() - screenHeight) / 2f;		
+		
 		Texture goodTexture = loadGoodTexture();
 		Texture badTexture = loadBadTexture();
 		
 		for(int i = 0; i < COLONNE; i++) {
 			for(int j = 0; j < LINE; j++) {		
 				
-				Square tmp = new Square(new Rectangle(i * rectangleWidth, j * rectangleHeight, rectangleWidth, rectangleHeight));
-				
+				Square tmp = new Square((i * squareWidth) + marginWidth, (j * squareHeight ) + marginHeight, squareWidth, squareHeight);				
 				if(Math.random() < 0.1 || (goodSquares.isEmpty() && (i == COLONNE - 1) && (j == LINE - 1))) {
-					tmp.setTexture(goodTexture);
+					tmp.setTexture(goodTexture);					
 					goodSquares.add(tmp);
 					
 				} else {
@@ -53,9 +90,8 @@ public class SquareManager {
 					badSquares.add(tmp);
 				}			
 			}
-		}
-		
-	}
+		}	
+	}	
 	
 	private Texture loadGoodTexture() {
 		return new Texture(Gdx.files.internal("diamond.png"));
@@ -70,14 +106,14 @@ public class SquareManager {
 	{
 		boolean haveToProcessSquare = false; 
 		
-		if(TimeUtils.timeSinceMillis(timeSinceProcess) > 250) {
+		if(TimeUtils.timeSinceMillis(timeSinceProcess) > 1000) {
 			haveToProcessSquare = true;
 			timeSinceProcess = TimeUtils.millis();
 		}
 		
 		squareRenderer.begin();
-		squareRenderer.renderSquares(haveToProcessSquare, goodSquares);
-		squareRenderer.renderSquares(haveToProcessSquare, badSquares);
+		squareRenderer.renderSquares(haveToProcessSquare, goodSquares, screenWidth, marginWidth);
+		squareRenderer.renderSquares(haveToProcessSquare, badSquares, screenWidth, marginWidth);
 		squareRenderer.end();
 	}
 }

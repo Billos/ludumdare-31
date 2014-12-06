@@ -17,7 +17,7 @@ public class GameScreen implements Screen {
 
 	public GameScreen(Screen launcher) {
 		this.launcher = launcher;
-		this.state = State.PAUSE;
+		this.state = State.RUN;
 		squareManager = new SquareManager();
 		squareManager.dispatch();
 		badGuysManager = new BadGuyManager(3);
@@ -44,10 +44,15 @@ public class GameScreen implements Screen {
 		}
 
 		// pause unpause
-		if(Gdx.input.isKeyJustPressed(Keys.SPACE)){
-			this.state = (this.state == State.RUN) ? State.PAUSE : State.RUN;
-		}
 
+		if(Gdx.input.isKeyPressed(Keys.SPACE)){
+			this.state = State.RUN;
+		} else if(Gdx.input.isKeyPressed(Keys.P)){
+			this.state = State.PAUSE;
+		}  else if(Gdx.input.isKeyPressed(Keys.ESCAPE)){
+			Gdx.app.exit();
+		}
+		
 	}
 
 	private void update() {
