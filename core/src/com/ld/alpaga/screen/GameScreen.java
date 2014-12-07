@@ -3,34 +3,26 @@ package com.ld.alpaga.screen;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.ld.alpaga.badguy.BadGuy;
-import com.ld.alpaga.badguy.BadGuyManager;
-import com.ld.alpaga.square.SquareManager;
+import com.ld.alpaga.actor.ClickableActor;
+import com.ld.alpaga.actor.manager.BadGuyManager;
+import com.ld.alpaga.actor.manager.SquareManager;
 import com.ld.alpaga.util.State;
 
 public class GameScreen implements Screen {
 
 	private State state;
 	private Stage stage;
-	private Camera camera;
-	private Batch batch;
 
 	public GameScreen(Screen launcher) {
-		this.batch = new SpriteBatch();
 		this.stage = new Stage();
 		this.state = State.RUN;
-		this.camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		
 		
 		new SquareManager(this.stage);
-		new BadGuyManager(this.stage, 150);
+		new BadGuyManager(this.stage, 10);
 		
 	}
 
@@ -46,7 +38,7 @@ public class GameScreen implements Screen {
 		case PAUSE:
 			break;
 		case RUN:
-			update();
+			stage.draw();
 			reaction();
 			break;
 		default:
@@ -69,30 +61,15 @@ public class GameScreen implements Screen {
 		if (Gdx.input.justTouched()) {
 
 			Actor hitActor = this.stage.hit(Gdx.input.getX(), Gdx.graphics.getHeight()-Gdx.input.getY(), true);
-			System.out.println(hitActor);
 			
-			if (hitActor != null && hitActor instanceof BadGuy){
-				System.out.println("PLOP");
+			if (hitActor != null && hitActor instanceof ClickableActor){
+				((ClickableActor)hitActor).onClick();
 			}
 
 		}
 	}
 
 
-
-	private void update() {
-		
-		stage.draw();
-		
-        camera.update();
-        batch.setProjectionMatrix(camera.combined);
-        
-	}
-
-	
-	
-	
-	
 	/**
 	 * UNUSED OVERRIDES
 	 */

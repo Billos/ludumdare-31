@@ -1,8 +1,10 @@
-package com.ld.alpaga.square;
+package com.ld.alpaga.actor.manager;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.ld.alpaga.actor.Square;
+import com.ld.alpaga.actor.enumeration.SquareType;
 
 public class SquareManager {
 
@@ -37,8 +39,8 @@ public class SquareManager {
 				boolean b = (Math.random() < 0.1 || ((Square.goodCount == 0) && (i == COLONNE - 1) && (j == LINE - 1)));
 				SquareType type = (b) ? SquareType.Good : SquareType.Bad;
 				Texture t = (b) ? goodTexture : badTexture;
-				Square tmp = new Square((i * squareWidth) + marginWidth, (j * squareHeight ) + marginHeight, squareWidth, squareHeight, type, t);
-				this.stage.addActor(tmp);
+				Square s = new Square((i * squareWidth) + marginWidth, (j * squareHeight ) + marginHeight, squareWidth, squareHeight, type, t);
+				this.stage.addActor(s);
 			}
 		}	
 	}	

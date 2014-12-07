@@ -19,9 +19,12 @@ public class MenuScreen implements Screen {
 	private Stage stage;
 	private Launcher launcher;
 	private Texture background;
+	private boolean game;
 
 	public MenuScreen(Launcher launcher) {
+		this.game = false;
 		this.launcher = launcher;
+		this.stage = new Stage();
 
 	}
 
@@ -55,7 +58,6 @@ public class MenuScreen implements Screen {
 		TextureRegionDrawable down 	= new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("style/menu/button/down.png"))));
 		TextureRegionDrawable check = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("style/menu/button/checked.png"))));
 
-		stage = new Stage();
 		Gdx.input.setInputProcessor(stage);//stage reçoit les input
 
 		BitmapFont font = new BitmapFont(Gdx.files.internal("style/menu/button/font.fnt"),Gdx.files.internal("style/menu/button/font.png"), false);
@@ -68,7 +70,7 @@ public class MenuScreen implements Screen {
 		// Center
 		float w = (Gdx.graphics.getWidth()-button.getWidth())/2;
 		float h = (Gdx.graphics.getHeight()-button.getHeight())/2;
-		
+
 		button.setPosition(w,h);
 		button.addListener(new LaunchGameListener(this));
 
@@ -103,7 +105,11 @@ public class MenuScreen implements Screen {
 
 
 	public void launchGame(){
-		launcher.setScreen(new GameScreen(this));
+
+		if(!game){
+			launcher.setScreen(new GameScreen(this));
+			this.game = true;
+		}
 	}
 
 }

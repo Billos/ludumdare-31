@@ -1,4 +1,4 @@
-package com.ld.alpaga.badguy;
+package com.ld.alpaga.actor;
 
 import java.util.Random;
 
@@ -9,15 +9,16 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
 
-public class BadGuy extends Actor{
+public class BadGuy extends Actor implements ClickableActor {
 
 	private Animation anim;
 	private float stateTime;
 
-	public BadGuy(float x, float y, Animation anim)  {
-		super();
+	public BadGuy(float x, float y, Animation anim, float width, float height)  {
 		setX(x);
 		setY(y);
+		setWidth(width);
+		setHeight(height);
 		this.stateTime = 0F;
 		this.anim = anim;
 	}
@@ -62,14 +63,9 @@ public class BadGuy extends Actor{
 		
 	}
 
-	@Override
-	public void act(float delta) {
-		super.act(delta);
-		
-		this.setPosition(getX(), getY());
-	}
-	
 	public void onClick(){
+		
+		// Game over
 		
 	}
 
