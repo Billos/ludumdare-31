@@ -17,7 +17,6 @@ import com.ld.alpaga.util.State;
 
 public class GameScreen implements Screen {
 
-	private SquareManager squareManager;
 	private State state;
 	private Stage stage;
 	private Camera camera;
@@ -30,8 +29,7 @@ public class GameScreen implements Screen {
 		this.camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		
 		
-		squareManager = new SquareManager();
-		squareManager.dispatch();
+		new SquareManager(this.stage);
 		new BadGuyManager(this.stage, 150);
 		
 	}
@@ -43,7 +41,6 @@ public class GameScreen implements Screen {
 
 		Gdx.gl.glClearColor(0, 0, 0, 255);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
 
 		switch (this.state) {
 		case PAUSE:
@@ -85,7 +82,6 @@ public class GameScreen implements Screen {
 
 	private void update() {
 		
-		squareManager.render();
 		stage.draw();
 		
         camera.update();
