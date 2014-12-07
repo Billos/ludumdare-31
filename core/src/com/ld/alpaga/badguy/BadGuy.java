@@ -1,5 +1,7 @@
 package com.ld.alpaga.badguy;
 
+import java.util.Random;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -13,13 +15,13 @@ public class BadGuy {
 	private Behavior behavior;
 	private Animation anim;
 
-	public BadGuy(Behavior behavior) {
+	public BadGuy(Behavior behavior)  {
 		this.behavior = behavior;
 		
 		Texture texture = new Texture(Gdx.files.internal("game/sprite/badguy/badguy1/sprite.png"));
-		TextureRegion[] frames = TextureRegion.split(texture, texture.getWidth(), texture.getHeight())[0];
+		TextureRegion[] frames = TextureRegion.split(texture, texture.getWidth()/4, texture.getHeight())[0];
 		
-		this.anim = new Animation(0.025F, frames);
+		this.anim = new Animation(0.5F, frames);
 	}
 
 	public Behavior getBehavior() {
@@ -56,6 +58,13 @@ public class BadGuy {
 	}
 
 	public void move() {
+		
+		Random r = new Random();
+		int xD = r.nextInt(3)-1;
+		int yD = r.nextInt(3)-1;
+		
+		this.x += xD;
+		this.y += yD;
 		
 	}
 
