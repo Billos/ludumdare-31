@@ -3,7 +3,14 @@ package com.ld.alpaga.screen;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.ld.alpaga.badguy.BadGuy;
 import com.ld.alpaga.badguy.BadGuyManager;
 import com.ld.alpaga.square.SquareManager;
 import com.ld.alpaga.util.State;
@@ -11,17 +18,22 @@ import com.ld.alpaga.util.State;
 public class GameScreen implements Screen {
 
 	private SquareManager squareManager;
-	private BadGuyManager badGuysManager;
-	public Screen launcher;
 	private State state;
+	private Stage stage;
+	private Camera camera;
+	private Batch batch;
 
 	public GameScreen(Screen launcher) {
-		this.launcher = launcher;
+		this.batch = new SpriteBatch();
+		this.stage = new Stage();
 		this.state = State.RUN;
+		this.camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		
+		
 		squareManager = new SquareManager();
 		squareManager.dispatch();
-		badGuysManager = new BadGuyManager(3);
-		badGuysManager.dispatch();
+		new BadGuyManager(this.stage, 150);
+		
 	}
 
 
@@ -38,6 +50,7 @@ public class GameScreen implements Screen {
 			break;
 		case RUN:
 			update();
+			reaction();
 			break;
 		default:
 			break;
@@ -52,40 +65,46 @@ public class GameScreen implements Screen {
 		}  else if(Gdx.input.isKeyPressed(Keys.ESCAPE)){
 			Gdx.app.exit();
 		}
-		
+
 	}
+
+	private void reaction() {
+		if (Gdx.input.justTouched()) {
+
+			Actor hitActor = this.stage.hit(Gdx.input.getX(), Gdx.graphics.getHeight()-Gdx.input.getY(), true);
+			System.out.println(hitActor);
+			
+			if (hitActor != null && hitActor instanceof BadGuy){
+				System.out.println("PLOP");
+			}
+
+		}
+	}
+
+
 
 	private void update() {
 		
 		squareManager.render();
-		badGuysManager.render();
+		stage.draw();
 		
+        camera.update();
+        batch.setProjectionMatrix(camera.combined);
+        
 	}
+
 	
-	@Override
-	public void resize(int width, int height) {
-	}
-
-	@Override
-	public void show() {
-
-	}
-
-	@Override
-	public void hide() {
-
-	}
-
-	@Override
-	public void pause() {
-	}
-
-	@Override
-	public void resume() {
-	}
-
-	@Override
-	public void dispose() {
-	}
+	
+	
+	
+	/**
+	 * UNUSED OVERRIDES
+	 */
+	public void resize(int width, int height) {}
+	public void show() {}
+	public void hide() {}
+	public void pause() {}
+	public void resume() {}
+	public void dispose() {}
 
 }
