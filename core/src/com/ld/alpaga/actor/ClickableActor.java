@@ -1,7 +1,9 @@
 package com.ld.alpaga.actor;
 
-public interface ClickableActor {
+import com.badlogic.gdx.scenes.scene2d.Actor;
+
+public abstract class ClickableActor extends Actor {
 	
-	public void onClick();
+	public abstract void onClick();
 	
 }

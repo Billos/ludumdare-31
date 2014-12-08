@@ -3,11 +3,10 @@ package com.ld.alpaga.actor;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.ld.alpaga.actor.enumeration.SquareType;
 
-public class Square extends Actor implements ClickableActor {
+public class Square extends ClickableActor {
 	
 	public static int goodCount;
 	
