@@ -103,11 +103,10 @@ public class MenuScreen implements Screen {
 
 	}
 
-
 	public void launchGame(){
 
 		if(!game){
-			launcher.setScreen(new GameScreen(this));
+			launcher.setScreen(new GameScreen(launcher));
 			this.game = true;
 		}
 	}

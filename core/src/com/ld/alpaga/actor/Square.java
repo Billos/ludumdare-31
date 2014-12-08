@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.ld.alpaga.actor.enumeration.SquareType;
+import com.ld.alpaga.actor.manager.SquareManager;
 
 public class Square extends ClickableActor {
 	
@@ -13,13 +14,15 @@ public class Square extends ClickableActor {
 	private Texture texture;
 	private long timeSinceProcess;	
 	private SquareType type;	
+	private SquareManager squareManager;
 	
-	public Square (float x, float y, float width, float height, SquareType type, Texture texture) {
+	public Square (float x, float y, float width, float height, SquareType type, Texture texture, SquareManager squareManager) {
 		setX(x);
 		setY(y);
 		setWidth(width);
 		setHeight(height);
 		
+		this.squareManager = squareManager;
 		this.texture = texture;
 		this.type = type;
 		this.timeSinceProcess = TimeUtils.millis();
@@ -39,7 +42,7 @@ public class Square extends ClickableActor {
 		}
 		
 		if(haveToProcessSquare){
-			float screenWidth = Gdx.graphics.getWidth();
+			float screenWidth = squareManager.getScreenWidth();
 			float marginWidth = (Gdx.graphics.getWidth() - screenWidth) / 2f;
 			float newX = getX() + getWidth();	
 			float tmp = screenWidth + marginWidth;
@@ -50,17 +53,19 @@ public class Square extends ClickableActor {
 			setX(newX);
 		}
 		
-		batch.draw(texture, getX(), getY(), getWidth(), getHeight());
-		
+		batch.draw(texture, getX(), getY(), getWidth(), getHeight());	
 	}
 
 	@Override
 	public void onClick() {
-		
-		if(type == SquareType.Good){
-			// screen goes smaller
-		} else if(type == SquareType.Bad){
-			// Nothing
+		if(!firstClick) {
+			if(type == SquareType.Good){
+				squareManager.goodClick();
+			} else if(type == SquareType.Bad){
+				squareManager.gameOver();
+			}
+		} else {
+			firstClick = false;
 		}
 		
 	}

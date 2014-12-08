@@ -6,20 +6,23 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.ld.alpaga.actor.manager.BadGuyManager;
 
 
 public class BadGuy extends ClickableActor  {
 
 	private Animation anim;
 	private float stateTime;
+	private BadGuyManager guyManager;
 
-	public BadGuy(float x, float y, Animation anim, float width, float height)  {
+	public BadGuy(float x, float y, Animation anim, float width, float height, BadGuyManager badGuyManager)  {
 		setX(x);
 		setY(y);
 		setWidth(width);
 		setHeight(height);
 		this.stateTime = 0F;
 		this.anim = anim;
+		this.guyManager = badGuyManager;
 	}
 
 	public void move(TextureRegion frame, int min, int max) {
@@ -63,9 +66,10 @@ public class BadGuy extends ClickableActor  {
 	}
 
 	public void onClick(){
-		
-		// Game over
-		
+		if(!firstClick)
+			guyManager.gameOver();
+		else
+			firstClick = false;	
 	}
 
 }

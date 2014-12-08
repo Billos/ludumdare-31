@@ -6,6 +6,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.ld.alpaga.Launcher;
 import com.ld.alpaga.actor.ClickableActor;
 import com.ld.alpaga.actor.manager.BadGuyManager;
 import com.ld.alpaga.actor.manager.SquareManager;
@@ -15,18 +16,28 @@ public class GameScreen implements Screen {
 
 	private State state;
 	private Stage stage;
+	private SquareManager squareManager;
+	private BadGuyManager guyManager;
+	private Launcher launcher;
 
-	public GameScreen(Screen launcher) {
+	public GameScreen(Launcher launcher) {
 		this.stage = new Stage();
 		this.state = State.RUN;
+		this.launcher = launcher;
 		
-		
-		new SquareManager(this.stage);
-		new BadGuyManager(this.stage, 10);
-		
+		squareManager = new SquareManager(this.stage, this);
+		guyManager = new BadGuyManager(this.stage, 10, this);
 	}
 
-
+	public void reduce() {
+		this.stage.clear();
+		squareManager.reduce();
+		guyManager.reduce();
+	}
+	
+	public void gameOver() {
+		this.launcher.setScreen(new GameOverScreen());
+	}
 
 	@Override
 	public void render(float delta) {
